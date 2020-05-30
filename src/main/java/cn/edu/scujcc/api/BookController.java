@@ -1,0 +1,120 @@
+package cn.edu.scujcc.api;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import cn.edu.scujcc.model.Book;
+import cn.edu.scujcc.model.Result;
+import cn.edu.scujcc.service.BookService;
+
+
+@RestController
+@RequestMapping("/book")
+public class BookController {
+	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+	
+	@Autowired
+	private BookService service;
+	
+	
+	
+	@GetMapping
+	public  Result<List<Book>> getAllBooks() {
+		logger.info("正在读取所有书籍信息!!!");
+		Result<List<Book>> result = new Result<List<Book>>();
+		List<Book> books = service.getAllBooks();
+		result = result.ok();
+		result.setData(books);
+		logger.debug("所有书籍的数量是"+books.size());
+		return result;
+	}
+	
+	
+	/**
+	 * 查询指定id书籍
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/{id}")
+	public Result<Book> getBook(@PathVariable String id) {
+		logger.info("正在读取书籍："+id);
+		Result<Book> result = new Result<>();
+		Book b = service.getBook(id);
+		if (b != null) {
+			result = result.ok();
+			result.setData(b);
+		} else {
+			logger.error("找不到指定的书籍。");
+			result = result.error();
+			result.setMessage("找不到指定的书籍。");
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 删除书籍
+	 * @return
+	 */
+	@DeleteMapping("/{id}")
+	public Result<Book> detleteBook(@PathVariable String id) {
+		logger.info("即将删除书籍，id="+id);
+		Result<Book> result = new Result<>();
+		boolean del = service.deleteBook(id);
+		if (del) {
+			result = result.ok();
+		} else {
+			result.setStatus(Result.STATUS_ERROR);
+			result.setMessage("删除失败");
+		}
+		return result;
+	}
+	
+	/**
+	 * 新增书籍
+	 * @return
+	 */
+	@PostMapping
+	public Result<Book> createBook(@RequestBody Book b) {
+		logger.info("即将新增书籍，书籍数据：" + b);
+		Result<Book> result = new Result<>();
+		Book saved= service.createBook(b);
+		result = result.ok();
+		result.setData(saved);
+		if (b != null) {
+			result = result.ok();
+			result.setData(b);
+		} else {
+			result.setStatus(Result.STATUS_ERROR);
+			result.setMessage("新增失败");
+		}
+		return result;
+	}
+	
+	/**
+	 * 修改书籍
+	 * @return
+	 */
+	@PutMapping
+	public Result<Book> updateBook(@RequestBody Book b) {
+		logger.debug("即将更新书籍：书籍数据：" + b);
+		Result<Book> result = new Result<>();
+		Book updated = service.updateBook(b);
+		result = result.ok();
+		result.setData(updated);
+		return result;
+	}
+	
+	
+}
