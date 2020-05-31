@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import cn.edu.scujcc.dao.BookRepository;
 import cn.edu.scujcc.model.Book;
+import cn.edu.scujcc.model.Comment;
 
 
 @Service
@@ -31,7 +32,6 @@ public class BookService {
 	 */
 	public Book getBook(String bookId) {
 		Optional<Book> result = repo.findById(bookId);
-		
 		if(result.isPresent()) {
 			return result.get();
 		}else {
@@ -95,15 +95,36 @@ public class BookService {
 		return repo.save(saved);
 	}
 	
+	
 	/**
-	 * 搜索title、author、tag1、tag2、tag3
-	 * @param title
-	 * @param author
-	 * @param tag1
-	 * @param tag2
-	 * @param tag3
+	 * 用BookController的search()传来的s在title、author、tag1、tag2、tag3里查询
+	 * @param search
 	 * @return
 	 */
+	public List<Book> search(String s){
+		List<Book> t = repo.findByTitleLike(s);    //用s在 title 里查到的
+		t.addAll(repo.findByAuthorLike(s));        //用s在 author 里查到的	 
+		t.addAll(repo.findByTag1Like(s));          //用s在 tag1 里查到的	
+		t.addAll(repo.findByTag2Like(s));          //用s在 tag2 里查到的 
+		t.addAll(repo.findByTag3Like(s));          //用s在 tag3 里查到的
+		return t;
+	}
 	
+	
+	/**
+	 * 在book中添加评论
+	 * @param bookId
+	 * @param comment
+	 * @return
+	 */
+	public Book addComment(String bookId, Comment comment) {
+		Book saved = getBook(bookId);
+		if(saved != null) {
+			saved.addComment(comment);
+			return repo.save(saved);
+		}
+		return null;
+	}
 	
 }
+

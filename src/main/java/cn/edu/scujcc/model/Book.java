@@ -2,25 +2,40 @@ package cn.edu.scujcc.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Book implements Serializable{
 	private static final long serialVersionUID = 8113986652205866086L;
-	
+	@Id
 	private String id;
 	private String title;
 	private String author;
-	private String body;   //书的正文， txt、epub 格式
-	private String blurb; //书的简介 introduction blurb
+	private String body; //书的正文， txt、epub 格式
+	private String blurb; //书的简介 
 	private String tag1; // 书的标签1
 	private String tag2; // 书的标签2
 	private String tag3; // 书的标签3
+	private List<Comment> comments; //评论
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDateTime updateTime = LocalDateTime.now();//更新时间
-	private String cover;
-
+	private LocalDateTime updateTime = LocalDateTime.now(); //更新时间
+	private String cover; //书的封面
+	
+	/**
+	 * 向当前频道新增一个评论对象
+	 * @param comment
+	 */
+	public void addComment(Comment comment) {
+		if(this.comments == null) {
+			this.comments = new ArrayList<>();
+		}
+		this.comments.add(comment);
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -81,17 +96,22 @@ public class Book implements Serializable{
 	public void setCover(String cover) {
 		this.cover = cover;
 	}
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
-		result = prime * result + ((blurb == null) ? 0 : blurb.hashCode());
 		result = prime * result + ((tag1 == null) ? 0 : tag1.hashCode());
 		result = prime * result + ((tag2 == null) ? 0 : tag2.hashCode());
 		result = prime * result + ((tag3 == null) ? 0 : tag3.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + ((updateTime == null) ? 0 : updateTime.hashCode());
 		return result;
 	}
 	@Override
@@ -107,11 +127,6 @@ public class Book implements Serializable{
 			if (other.author != null)
 				return false;
 		} else if (!author.equals(other.author))
-			return false;
-		if (blurb == null) {
-			if (other.blurb != null)
-				return false;
-		} else if (!blurb.equals(other.blurb))
 			return false;
 		if (tag1 == null) {
 			if (other.tag1 != null)
@@ -133,19 +148,18 @@ public class Book implements Serializable{
 				return false;
 		} else if (!title.equals(other.title))
 			return false;
-		if (updateTime == null) {
-			if (other.updateTime != null)
-				return false;
-		} else if (!updateTime.equals(other.updateTime))
-			return false;
 		return true;
 	}
+	
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", body=" + body + ", blurb="
-				+ blurb + ", tag1=" + tag1 + ", tag2=" + tag2 + ", tag3=" + tag3 + ", updateTime=" + updateTime
-				+ ", cover=" + cover + "]";
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", body=" + body + ", blurb=" + blurb
+				+ ", tag1=" + tag1 + ", tag2=" + tag2 + ", tag3=" + tag3 + ", updateTime="
+				+ updateTime + ", cover=" + cover + "]";
 	}
+	
+	
+	
 	
 
 }

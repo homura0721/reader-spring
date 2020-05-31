@@ -11,19 +11,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.edu.scujcc.model.Book;
+import cn.edu.scujcc.model.Comment;
 import cn.edu.scujcc.model.Result;
 import cn.edu.scujcc.service.BookService;
+import cn.edu.scujcc.service.UserService;
 
 
 @RestController
 @RequestMapping("/book")
 public class BookController {
+	public final static int STATUS_OK = 1;
+	public final static int STATUS_ERROR = 0;
 	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 	
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private BookService service;
 	
@@ -55,9 +62,9 @@ public class BookController {
 			result = result.ok();
 			result.setData(b);
 		} else {
-			logger.error("找不到指定的书籍。");
+			logger.error("找不到书籍。");
 			result = result.error();
-			result.setMessage("找不到指定的书籍。");
+			result.setMessage("找不到书籍。");
 		}
 		return result;
 	}
@@ -90,11 +97,11 @@ public class BookController {
 		logger.info("即将新增书籍，书籍数据：" + b);
 		Result<Book> result = new Result<>();
 		Book saved= service.createBook(b);
-		result = result.ok();
-		result.setData(saved);
+		//result = result.ok();
+		//result.setData(saved);
 		if (b != null) {
 			result = result.ok();
-			result.setData(b);
+			result.setData(saved);
 		} else {
 			result.setStatus(Result.STATUS_ERROR);
 			result.setMessage("新增失败");
@@ -117,4 +124,34 @@ public class BookController {
 	}
 	
 	
+	/**
+	 * 查询title、author、tag1、tag2、tag3
+	 * @param s
+	 * @return
+	 */
+	@GetMapping("/search/{s}")
+	public List<Book> serach(@PathVariable String s){
+		return service.search(s);
+	}
+	
+	
+	
+	
+	/**
+	 * 添加评论
+	 * @param token
+	 * @param channelId
+	 * @param comment
+	 * @return
+	 */
+	@PostMapping("/{bookId}/comment")
+	public Book addComment(@RequestHeader("token") String token, @PathVariable String bookId,@RequestBody Comment comment) {
+		Book result = null;
+		String username = userService.currentUser(token);
+		comment.setCommentAuthor(username);
+		logger.debug(username + "即将评论书籍" + bookId+ "评论对象：" + comment);
+		//保存评论
+		result = service.addComment(bookId, comment);
+		return result;
+	}
 }
