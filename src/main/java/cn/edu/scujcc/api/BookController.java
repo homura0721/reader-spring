@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.edu.scujcc.model.Book;
@@ -129,18 +130,16 @@ public class BookController {
 	 * @param s
 	 * @return
 	 */
-	@GetMapping("/search/{s}")
-	public List<Book> serach(@PathVariable String s){
-		return service.search(s);
-	}
-	
-	
+	@GetMapping("/s/")
+		public List<Book> search(@RequestParam String keyword){
+			return service.search(keyword);
+		}
 	
 	
 	/**
 	 * 添加评论
 	 * @param token
-	 * @param channelId
+	 * @param booklId
 	 * @param comment
 	 * @return
 	 */
