@@ -10,7 +10,6 @@ import org.springframework.util.DigestUtils;
 
 import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.dao.UserRepository;
-import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.User;
 
 @Service

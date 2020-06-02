@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'commons-codec:commons-codec:1.11' //编码base64
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'

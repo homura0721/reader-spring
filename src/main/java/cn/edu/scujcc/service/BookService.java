@@ -1,5 +1,6 @@
 package cn.edu.scujcc.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import cn.edu.scujcc.dao.BookRepository;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Comment;
+
+
 
 
 @Service
@@ -104,12 +107,17 @@ public class BookService {
 	public List<Book> search(String s){
 		List<Book> t = repo.findByTitleLike(s);    //用s在 title 里查到的
 		t.addAll(repo.findByAuthorLike(s));        //用s在 author 里查到的	 
-		t.addAll(repo.findByTag1Like(s));          //用s在 tag1 里查到的	
-		t.addAll(repo.findByTag2Like(s));          //用s在 tag2 里查到的 
-		t.addAll(repo.findByTag3Like(s));          //用s在 tag3 里查到的
+		t.addAll(repo.findByTag1(s));          //用s在 tag1 里查到的	
+		t.addAll(repo.findByTag2(s));          //用s在 tag2 里查到的 
+		t.addAll(repo.findByTag3(s));          //用s在 tag3 里查到的
 		return t;
 	}
 	
+	
+	
+	   
+	
+
 	
 	/**
 	 * 在book中添加评论
