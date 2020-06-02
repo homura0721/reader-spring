@@ -13,7 +13,7 @@ public interface BookRepository extends MongoRepository<Book, String>{
 	List<Book> findByAuthorLike(String author);
 	
 	List<Book> findByTag1(String tag1);		//
-	List<Book> findByTag2(String tag2);		//	搜TAG好像不需要模糊搜索，就没用like（待议）
+	List<Book> findByTag2(String tag2);		//	搜TAG好像不需要模糊搜索，就没用like
 	List<Book> findByTag3(String tag3);		//
 	
 	
