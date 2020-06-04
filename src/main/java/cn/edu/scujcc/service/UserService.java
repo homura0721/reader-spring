@@ -1,5 +1,6 @@
 package cn.edu.scujcc.service;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import cn.edu.scujcc.UserExistException;
+import cn.edu.scujcc.api.BookController;
 import cn.edu.scujcc.dao.UserRepository;
 import cn.edu.scujcc.model.User;
 
@@ -17,9 +19,14 @@ public class UserService {
 	
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(UserService.class);
 	@Autowired
-	private UserRepository repo;
+	private UserRepository userRepo;
 	@Autowired
 	private CacheManager cacheManager;
+	@Autowired
+	private BookController bookController;
+	@Autowired
+	private BookService bookService;
+	
 	
 	
 	
@@ -31,9 +38,9 @@ public class UserService {
 	public User register(User user) throws UserExistException {
 		User result= null;
 		//判断用户名是否已在数据库中存在
-		User saved = repo.findFirstByUsername(user.getUsername());
+		User saved = userRepo.findFirstByUsername(user.getUsername());
 		if (saved == null) {
-			result = repo.save(user);
+			result = userRepo.save(user);
 		} else {
 			//用户已存在
 			logger.error("用户"+user.getUsername()+"已存在。");
@@ -49,7 +56,7 @@ public class UserService {
 	 */
 	public User login(String username, String password) {
 		User result = null;
-		result = repo.findOneByUsernameAndPassword(username, password);
+		result = userRepo.findOneByUsernameAndPassword(username, password);
 		return result;
 	}
 	
@@ -78,14 +85,6 @@ public class UserService {
 		return cache.get(token, String.class);
 	}
 	
-	/**
-	 * 收藏书籍
-	 * @param bookId
-	 * @return
-	 */
-	public String favorites(String bookId) {
-	//TODO
-		
-		return null;
-	}
+	
+	
 }

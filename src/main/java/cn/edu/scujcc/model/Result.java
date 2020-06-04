@@ -1,6 +1,7 @@
 package cn.edu.scujcc.model;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public class Result<T> implements Serializable {
 	private static final long serialVersionUID = 3832395744261177423L;
@@ -30,8 +31,6 @@ public class Result<T> implements Serializable {
 	public void setData(T data) {
 		this.data = data;
 	}
-	
-	
 	public Result<T> ok() {
 		Result<T> result = new Result<>();
 		result.setStatus(STATUS_OK);
