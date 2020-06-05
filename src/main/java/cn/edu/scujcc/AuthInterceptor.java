@@ -64,7 +64,5 @@ public class AuthInterceptor implements HandlerInterceptor{
 		// TODO Auto-generated method stub
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
-	
-	
-	
+
 }

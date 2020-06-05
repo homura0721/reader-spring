@@ -8,7 +8,6 @@ public class Favorites implements Serializable{
 	private String userId;
 	private String bookId;
 	
-	
 	public String getUserId() {
 		return userId;
 	}
@@ -54,7 +53,5 @@ public class Favorites implements Serializable{
 	public String toString() {
 		return "Favorites [userId=" + userId + ", bookId=" + bookId + "]";
 	}
-	
-	
 	
 }

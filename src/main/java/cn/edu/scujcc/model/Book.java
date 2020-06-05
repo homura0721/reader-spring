@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Book implements Serializable{
 	private static final long serialVersionUID = 4359709211352400087L;
-	public static final String CACHE_NAME = "books";
+	
 	@Id
 	private String id;
 	private String title;

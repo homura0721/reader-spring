@@ -11,10 +11,6 @@ import org.springframework.stereotype.Service;
 import cn.edu.scujcc.dao.BookRepository;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Comment;
-import cn.edu.scujcc.model.User;
-
-
-
 
 @Service
 public class BookService {
@@ -114,7 +110,6 @@ public class BookService {
 	}
 	
 	   
-	
 	/**
 	 * 在book中添加评论
 	 * @param bookId
@@ -131,4 +126,3 @@ public class BookService {
 	}
 	
 }
-

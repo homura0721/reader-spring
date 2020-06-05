@@ -1,9 +1,7 @@
 package cn.edu.scujcc.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 
@@ -21,7 +19,6 @@ public class User implements Serializable{
 	private String gender;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
-	
 	
 	public String getId() {
 		return id;
@@ -123,4 +120,5 @@ public class User implements Serializable{
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", gender="
 				+ gender + ", birthday=" + birthday + "]";
 	}
+	
 }

@@ -26,5 +26,6 @@ public class ReaderSpringApplication {
 		cmfb.setConfigLocation(new ClassPathResource("ehcache.xml"));
 		cmfb.setShared(true);
 		return cmfb;
-	}	
+	}
+	
 }

@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Favorites;
 import cn.edu.scujcc.model.Result;
-import cn.edu.scujcc.service.BookService;
 import cn.edu.scujcc.service.FavoritesService;
 
 @RestController
@@ -23,7 +21,6 @@ public class FavoritesController {
 	@Autowired
 	private FavoritesService fService;
 	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-	
 	
 	/**
 	 * 按照userId查找收藏夹
@@ -85,4 +82,5 @@ public class FavoritesController {
 		}
 		return result;
 	}
+	
 }

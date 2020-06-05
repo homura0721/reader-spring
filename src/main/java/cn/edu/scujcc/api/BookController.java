@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Comment;
 import cn.edu.scujcc.model.Result;
-import cn.edu.scujcc.model.User;
 import cn.edu.scujcc.service.BookService;
 import cn.edu.scujcc.service.UserService;
 
@@ -27,16 +26,11 @@ import cn.edu.scujcc.service.UserService;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-	public final static int STATUS_OK = 1;
-	public final static int STATUS_ERROR = 0;
-	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-	
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private BookService bookService;
-	
-	
+	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 	
 	@GetMapping
 	public  Result<List<Book>> getAllBooks() {
@@ -90,6 +84,7 @@ public class BookController {
 		return result;
 	}
 	
+	
 	/**
 	 * 新增书籍
 	 * @return
@@ -108,6 +103,7 @@ public class BookController {
 		}
 		return result;
 	}
+	
 	
 	/**
 	 * 修改书籍
@@ -152,4 +148,5 @@ public class BookController {
 		result = bookService.addComment(bookId, comment);
 		return result;
 	}
+	
 }
