@@ -66,5 +66,23 @@ public class FavoritesController {
 		return result;
 	}
 	
-
+	/**
+	 * 根据userId和bookId，删除收藏夹
+	 * @param userId
+	 * @param bookId
+	 * @return
+	 */
+	@DeleteMapping("/{userId}/{bookId}")
+	public Result<Favorites> detleteBook(@PathVariable String userId, @PathVariable String bookId) {
+		logger.info("准备删除收藏夹");
+		Result<Favorites> result = new Result<>();
+		boolean del = fService.deleteFavorites(userId, bookId);
+		if (del) {
+			result = result.ok();
+		} else {
+			result.setStatus(Result.STATUS_ERROR);
+			result.setMessage("删除失败");
+		}
+		return result;
+	}
 }

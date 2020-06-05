@@ -28,7 +28,6 @@ public class FavoritesService {
 	}
 	
 	
-	
 	/**
 	 * 添加收藏夹
 	 * @param f
@@ -39,4 +38,15 @@ public class FavoritesService {
 	}
 
 	
+	/**
+	 * 根据userId和bookId，删除收藏
+	 * @param userId
+	 * @param bookId
+	 * @return
+	 */
+	public boolean deleteFavorites(String userId, String bookId) {
+		boolean result = true;
+		fRepo.deleteByUserIdAndBookId(userId, bookId);
+		return result;
+	}
 }
