@@ -1,53 +1,33 @@
 package cn.edu.scujcc.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.Id;
 
 public class Favorites implements Serializable{
 	private static final long serialVersionUID = 9025921434272724054L;
-	@Id
-	private String id;
-	private String title;
-	private String author;
-	private String cover; //书的封面
+	
+	private String userId;
+	private String bookId;
 	
 	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	public String getBookId() {
+		return bookId;
+	}
+	public void setBookId(String bookId) {
+		this.bookId = bookId;
+	}
 	
-	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle() {
-		this.title = title;
-	}
-	public String getAuthor() {
-		return author;
-	}
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	public String getCover() {
-		return cover;
-	}
-	public void setCover(String cover) {
-		this.cover = cover;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
-		result = prime * result + ((cover == null) ? 0 : cover.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((bookId == null) ? 0 : bookId.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 	@Override
@@ -59,32 +39,24 @@ public class Favorites implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Favorites other = (Favorites) obj;
-		if (author == null) {
-			if (other.author != null)
+		if (bookId == null) {
+			if (other.bookId != null)
 				return false;
-		} else if (!author.equals(other.author))
-			return false;
-		if (cover == null) {
-			if (other.cover != null)
+		} else if (!bookId.equals(other.bookId))
+		if (userId == null) {
+			if (other.userId != null)
 				return false;
-		} else if (!cover.equals(other.cover))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "Favorites [id=" + id + ", title=" + title + ", author=" + author + ",  cover=" + cover + "]";
-	}
+		return "Favorites [userId=" + userId + ", bookId=" + bookId + "]";
+	} 
+	
+	
+	
 	
 	
 }

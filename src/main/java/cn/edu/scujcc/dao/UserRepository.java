@@ -17,7 +17,7 @@ public interface UserRepository extends MongoRepository<User, String>{
 
 	
 	
-	public User findByFavorites(String userId);
+	
 
 
 }
