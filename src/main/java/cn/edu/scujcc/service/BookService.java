@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import cn.edu.scujcc.dao.BookRepository;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Comment;
+import cn.edu.scujcc.model.User;
 
 
 
@@ -18,13 +19,13 @@ import cn.edu.scujcc.model.Comment;
 @Service
 public class BookService {
 	@Autowired
-	private BookRepository repo;
+	private BookRepository bookRepo;
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(BookService.class);
 	
 	
 	public List<Book> getAllBooks() {
 		logger.debug("从数据库读取所有书籍信息");
-		return repo.findAll();
+		return bookRepo.findAll();
 	}
 	
 	/**
@@ -33,7 +34,7 @@ public class BookService {
 	 * @return
 	 */
 	public Book getBook(String bookId) {
-		Optional<Book> result = repo.findById(bookId);
+		Optional<Book> result = bookRepo.findById(bookId);
 		if(result.isPresent()) {
 			return result.get();
 		}else {
@@ -48,7 +49,7 @@ public class BookService {
 	 */
 	public boolean deleteBook(String bookId) {
 		boolean result = true;
-		repo.deleteById(bookId);
+		bookRepo.deleteById(bookId);
 		return result;
 	}
 	
@@ -58,7 +59,7 @@ public class BookService {
 	 * @return
 	 */
 	public Book createBook(Book b) {
-		return repo.save(b);
+		return bookRepo.save(b);
 	}
 	
 	/**
@@ -94,7 +95,7 @@ public class BookService {
 				saved.setBlurb(b.getBlurb());
 			}
 		}
-		return repo.save(saved);
+		return bookRepo.save(saved);
 	}
 	
 	
@@ -104,11 +105,11 @@ public class BookService {
 	 * @return
 	 */
 	public List<Book> search(String s){
-		List<Book> t = repo.findByTitleLike(s);    //用s在 title 里查到的
-		t.addAll(repo.findByAuthorLike(s));        //用s在 author 里查到的	 
-		t.addAll(repo.findByTag1(s));          //用s在 tag1 里查到的	
-		t.addAll(repo.findByTag2(s));          //用s在 tag2 里查到的 
-		t.addAll(repo.findByTag3(s));          //用s在 tag3 里查到的
+		List<Book> t = bookRepo.findByTitleLike(s);    //用s在 title 里查到的
+		t.addAll(bookRepo.findByAuthorLike(s));        //用s在 author 里查到的	 
+		t.addAll(bookRepo.findByTag1(s));          //用s在 tag1 里查到的	
+		t.addAll(bookRepo.findByTag2(s));          //用s在 tag2 里查到的 
+		t.addAll(bookRepo.findByTag3(s));          //用s在 tag3 里查到的
 		return t;
 	}
 	
@@ -124,7 +125,7 @@ public class BookService {
 		Book saved = getBook(bookId);
 		if(saved != null) {
 			saved.addComment(comment);
-			return repo.save(saved);
+			return bookRepo.save(saved);
 		}
 		return null;
 	}

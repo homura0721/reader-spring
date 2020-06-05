@@ -1,5 +1,7 @@
 package cn.edu.scujcc.api;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.model.Result;
 import cn.edu.scujcc.model.User;
+import cn.edu.scujcc.service.BookService;
 import cn.edu.scujcc.service.UserService;
 
 @RestController
@@ -22,7 +25,9 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	private UserService service;
+	private UserService userService;
+	@Autowired
+	private BookService bookService;
 	@Autowired
 	private CacheManager cacheManager;
 	
@@ -37,7 +42,7 @@ public class UserController {
 		Result<User> result = new Result<>();
 		logger.debug("用户注册："+u);
 		try {
-			User saved = service.register(u);
+			User saved = userService.register(u);
 			result.setStatus(Result.STATUS_OK);
 			result.setMessage("注册成功");
 			result.setData(saved);
@@ -52,10 +57,10 @@ public class UserController {
 	@GetMapping("/login/{username}/{password}")
 	public Result<String> login(@PathVariable("username") String username, @PathVariable("password") String password) {
 		Result<String> result = new Result();
-		User saved = service.login(username, password);
+		User saved = userService.login(username, password);
 		if (saved != null) {
 			//登录成功
-			String uid = service.checkIn(username);
+			String uid = userService.checkIn(username);
 			result.setStatus(Result.STATUS_OK);
 			result.setData(uid);
 			result.setMessage("登录成功");
@@ -68,4 +73,5 @@ public class UserController {
 		return result;
 	}
 	
+
 }

@@ -11,7 +11,6 @@ public class Comment implements Serializable{
 	private String content;//评论内容
 	private String commentAuthor;//评论作者
 	private int star;//点赞数
-	private String facorites; //收藏夹
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime dt = LocalDateTime.now();//评论时间
 	
@@ -33,12 +32,6 @@ public class Comment implements Serializable{
 	public void setStar(int star) {
 		this.star = star;
 	}
-	public String getFacorites() {
-		return facorites;
-	}
-	public void setFacorites(String facorites) {
-		this.facorites = facorites;
-	}
 	public LocalDateTime getDt() {
 		return dt;
 	}
@@ -52,7 +45,6 @@ public class Comment implements Serializable{
 		result = prime * result + ((commentAuthor == null) ? 0 : commentAuthor.hashCode());
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
 		result = prime * result + ((dt == null) ? 0 : dt.hashCode());
-		result = prime * result + ((facorites == null) ? 0 : facorites.hashCode());
 		result = prime * result + star;
 		return result;
 	}
@@ -80,19 +72,13 @@ public class Comment implements Serializable{
 				return false;
 		} else if (!dt.equals(other.dt))
 			return false;
-		if (facorites == null) {
-			if (other.facorites != null)
-				return false;
-		} else if (!facorites.equals(other.facorites))
-			return false;
 		if (star != other.star)
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "Comment [content=" + content + ", commentAuthor=" + commentAuthor + ", star=" + star + ", facorites="
-				+ facorites + ", dt=" + dt + "]";
+		return "Comment [content=" + content + ", commentAuthor=" + commentAuthor + ", star=" + star + ", dt=" + dt + "]";
 	}
 	
 	

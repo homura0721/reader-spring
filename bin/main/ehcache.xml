@@ -4,7 +4,7 @@
 	monitoring="autodetect" dynamicConfig="true">
 	<diskStore path="java.io.tmpdir"/>
 	
-	<cache name="channels" maxEntriesLocalHeap="1000"
+	<cache name="books" maxEntriesLocalHeap="1000"
 		maxEntriesLocalDisk="2000" eternal="false" diskSpoolBufferSizeMB="20"
 		memoryStoreEvictionPolicy="LFU" timeToIdleSeconds="6000" timeToLiveSeconds="36000"
 		transactionalMode="off">

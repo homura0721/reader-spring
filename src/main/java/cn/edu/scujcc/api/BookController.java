@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Comment;
 import cn.edu.scujcc.model.Result;
+import cn.edu.scujcc.model.User;
 import cn.edu.scujcc.service.BookService;
 import cn.edu.scujcc.service.UserService;
 
@@ -33,7 +34,7 @@ public class BookController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private BookService service;
+	private BookService bookService;
 	
 	
 	
@@ -41,7 +42,7 @@ public class BookController {
 	public  Result<List<Book>> getAllBooks() {
 		logger.info("正在读取所有书籍信息!!!");
 		Result<List<Book>> result = new Result<List<Book>>();
-		List<Book> books = service.getAllBooks();
+		List<Book> books = bookService.getAllBooks();
 		result = result.ok();
 		result.setData(books);
 		logger.debug("所有书籍的数量是"+books.size());
@@ -58,7 +59,7 @@ public class BookController {
 	public Result<Book> getBook(@PathVariable String id) {
 		logger.info("正在读取书籍："+id);
 		Result<Book> result = new Result<>();
-		Book b = service.getBook(id);
+		Book b = bookService.getBook(id);
 		if (b != null) {
 			result = result.ok();
 			result.setData(b);
@@ -79,7 +80,7 @@ public class BookController {
 	public Result<Book> detleteBook(@PathVariable String id) {
 		logger.info("即将删除书籍，id="+id);
 		Result<Book> result = new Result<>();
-		boolean del = service.deleteBook(id);
+		boolean del = bookService.deleteBook(id);
 		if (del) {
 			result = result.ok();
 		} else {
@@ -97,7 +98,7 @@ public class BookController {
 	public Result<Book> createBook(@RequestBody Book b) {
 		logger.info("即将新增书籍，书籍数据：" + b);
 		Result<Book> result = new Result<>();
-		Book saved= service.createBook(b);
+		Book saved= bookService.createBook(b);
 		//result = result.ok();
 		//result.setData(saved);
 		if (b != null) {
@@ -118,7 +119,7 @@ public class BookController {
 	public Result<Book> updateBook(@RequestBody Book b) {
 		logger.debug("即将更新书籍：书籍数据：" + b);
 		Result<Book> result = new Result<>();
-		Book updated = service.updateBook(b);
+		Book updated = bookService.updateBook(b);
 		result = result.ok();
 		result.setData(updated);
 		return result;
@@ -132,7 +133,7 @@ public class BookController {
 	 */
 	@GetMapping("/s/")
 		public List<Book> search(@RequestParam String keyword){
-			return service.search(keyword);
+			return bookService.search(keyword);
 		}
 	
 	
@@ -150,7 +151,12 @@ public class BookController {
 		comment.setCommentAuthor(username);
 		logger.debug(username + "即将评论书籍" + bookId+ "评论对象：" + comment);
 		//保存评论
-		result = service.addComment(bookId, comment);
+		result = bookService.addComment(bookId, comment);
 		return result;
 	}
+	
+	
+	
+	
+	
 }

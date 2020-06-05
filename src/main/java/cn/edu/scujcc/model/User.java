@@ -1,13 +1,15 @@
 package cn.edu.scujcc.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class User {
+public class User implements Serializable{
 	private static final long serialVersionUID = 8425746230705180748L;
 	public static final String CACHE_NAME = "users";
 	
@@ -19,8 +21,19 @@ public class User {
 	private String gender;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
-	private String favorites; //收藏夹
 	
+	
+	private List<Favorites> favorites; //收藏
+	/**
+	 * 添加到收藏
+	 * @param favorites
+	 */
+	public void addFavorites(Favorites favorites) {
+		if(this.favorites == null) {
+			this.favorites = new ArrayList<>();
+		}
+		this.favorites.add(favorites);
+	}
 	
 	
 	public String getId() {
@@ -59,10 +72,10 @@ public class User {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	public String getFavorites() {
+	public List<Favorites> getFavorites() {
 		return favorites;
 	}
-	public void setFavorites(String favorites) {
+	public void setFavorites(List<Favorites> favorites) {
 		this.favorites = favorites;
 	}
 	@Override
@@ -129,6 +142,9 @@ public class User {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", gender="
 				+ gender + ", birthday=" + birthday + ", favorites=" + favorites + "]";
 	}
+	
+	
+
 	
 	
 }

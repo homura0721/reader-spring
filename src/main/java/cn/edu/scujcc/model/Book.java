@@ -10,7 +10,8 @@ import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Book implements Serializable{
-	private static final long serialVersionUID = 8113986652205866086L;
+	private static final long serialVersionUID = 4359709211352400087L;
+	public static final String CACHE_NAME = "books";
 	@Id
 	private String id;
 	private String title;
@@ -157,6 +158,7 @@ public class Book implements Serializable{
 				+ ", tag1=" + tag1 + ", tag2=" + tag2 + ", tag3=" + tag3 + ", updateTime="
 				+ updateTime + ", cover=" + cover + "]";
 	}
+
 	
 	
 	
