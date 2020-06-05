@@ -3,6 +3,7 @@ package cn.edu.scujcc.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,40 +14,57 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Favorites;
 import cn.edu.scujcc.model.Result;
+import cn.edu.scujcc.service.BookService;
 import cn.edu.scujcc.service.FavoritesService;
-import cn.edu.scujcc.service.UserService;
 
 @RestController
-@RequestMapping("/favorites")
+@RequestMapping("/f/")
 public class FavoritesController {
 	@Autowired
-	private FavoritesService favoritesService;
-	private static final Logger logger = LoggerFactory.getLogger(FavoritesController.class);
+	private FavoritesService fService;
+	private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 	
 	
 	/**
-	 * 通过userId，查找收藏夹
+	 * 按照userId查找收藏夹
 	 * @param userId
 	 * @return
 	 */
 	@GetMapping("/{userId}")
-	public Result<Favorites> getBook(@PathVariable String userId) {
-		logger.info("正在查找收藏夹，用户id："+userId);
+	public Result<Favorites> getFavorites(@PathVariable String userId) {
+		logger.info("正在查看用户：" + userId + "的收藏夹");
 		Result<Favorites> result = new Result<>();
-		Favorites f = favoritesService.getFavorites(userId);
+		Favorites f = fService.getFavorites(userId);
 		if (f != null) {
 			result = result.ok();
 			result.setData(f);
 		} else {
-			logger.error("找不到收藏。");
+			logger.error("找不到收藏夹。");
 			result = result.error();
-			result.setMessage("找不到收藏。");
+			result.setMessage("找不到收藏夹。");
 		}
 		return result;
 	}
 	
-	
+	/**
+	 * 添加到收藏夹
+	 * @param f
+	 * @return
+	 */
+	@PostMapping
+	public Result<Favorites> addFavorites(@RequestBody Favorites f) {
+		logger.info("即将加入收藏夹，数据为：" + f);
+		Result<Favorites> result = new Result<>();
+		Favorites saved= fService.addFavorites(f);
+		if (f != null) {
+			result = result.ok();
+			result.setData(saved);
+		} else {
+			result.setStatus(Result.STATUS_ERROR);
+			result.setMessage("添加收藏夹失败");
+		}
+		return result;
+	}
 	
 
-	
 }

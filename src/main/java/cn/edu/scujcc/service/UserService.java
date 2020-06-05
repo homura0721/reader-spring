@@ -1,6 +1,9 @@
 package cn.edu.scujcc.service;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.util.DigestUtils;
 import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.api.BookController;
 import cn.edu.scujcc.dao.UserRepository;
+import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.User;
 
 @Service
@@ -22,10 +26,6 @@ public class UserService {
 	private UserRepository userRepo;
 	@Autowired
 	private CacheManager cacheManager;
-	@Autowired
-	private BookController bookController;
-	@Autowired
-	private BookService bookService;
 	
 	
 	
@@ -84,7 +84,4 @@ public class UserService {
 		Cache cache = cacheManager.getCache(User.CACHE_NAME);
 		return cache.get(token, String.class);
 	}
-	
-	
-	
 }

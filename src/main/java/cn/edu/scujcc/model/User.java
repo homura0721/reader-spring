@@ -23,12 +23,6 @@ public class User implements Serializable{
 	private Date birthday;
 	
 	
-
-
-	
-	
-	
-	
 	public String getId() {
 		return id;
 	}
@@ -64,6 +58,12 @@ public class User implements Serializable{
 	}
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	public static String getCacheName() {
+		return CACHE_NAME;
 	}
 	@Override
 	public int hashCode() {
@@ -118,13 +118,9 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", gender="
 				+ gender + ", birthday=" + birthday + "]";
 	}
-	
-	
-	
 }

@@ -57,7 +57,7 @@ public class BookController {
 	 */
 	@GetMapping("/{id}")
 	public Result<Book> getBook(@PathVariable String id) {
-		logger.info("正在读取书籍："+id);
+		logger.info("正在读取书籍：" + id);
 		Result<Book> result = new Result<>();
 		Book b = bookService.getBook(id);
 		if (b != null) {
@@ -99,8 +99,6 @@ public class BookController {
 		logger.info("即将新增书籍，书籍数据：" + b);
 		Result<Book> result = new Result<>();
 		Book saved= bookService.createBook(b);
-		//result = result.ok();
-		//result.setData(saved);
 		if (b != null) {
 			result = result.ok();
 			result.setData(saved);
@@ -154,9 +152,4 @@ public class BookController {
 		result = bookService.addComment(bookId, comment);
 		return result;
 	}
-	
-	
-	
-	
-	
 }
