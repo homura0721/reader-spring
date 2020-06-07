@@ -99,4 +99,18 @@ public class UserService {
 		return result;
 	}
 
+	/**
+	 * 添加收藏夹
+	 * @param realUsername
+	 * @param favorite
+	 * @return
+	 */
+	public User addFavorite(String realUsername, Favorite favorite) {
+		User saved = getUser(realUsername);
+		if(saved != null) {
+			saved.addFavorite(favorite);
+			return userRepo.save(saved);
+		}
+		return null;
+	}
 }

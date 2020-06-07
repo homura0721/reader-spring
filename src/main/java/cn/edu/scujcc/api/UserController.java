@@ -93,4 +93,19 @@ public class UserController {
 		return f;
 	}
 
+	/**
+	 * 添加收藏夹
+	 * @param username
+	 * @param favorite
+	 * @return
+	 */
+	@PostMapping("/favorite/my/add")
+	public User addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite) {
+		User result = null;
+		String username = userService.currentUser(token);
+		String realUsername = username.substring(0,username.length()-13); //token里存的username多了后13位，减去
+		result = userService.addFavorite(realUsername, favorite);
+		return result;
+	}
+	
 }
