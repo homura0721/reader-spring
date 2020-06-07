@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.edu.scujcc.dao.UserRepository;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Comment;
-import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.Result;
 import cn.edu.scujcc.model.User;
 import cn.edu.scujcc.service.BookService;
@@ -29,8 +27,6 @@ import cn.edu.scujcc.service.UserService;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-	@Autowired
-	private UserRepository userRepo;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -54,11 +50,11 @@ public class BookController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/{id}")
-	public Result<Book> getBook(@PathVariable String id) {
-		logger.info("正在读取书籍：" + id);
+	@GetMapping("/{bookId}")
+	public Result<Book> getBook(@PathVariable String bookId) {
+		logger.info("正在读取书籍：" + bookId);
 		Result<Book> result = new Result<>();
-		Book b = bookService.getBook(id);
+		Book b = bookService.getBook(bookId);
 		if (b != null) {
 			result = result.ok();
 			result.setData(b);
@@ -75,11 +71,11 @@ public class BookController {
 	 * 删除书籍
 	 * @return
 	 */
-	@DeleteMapping("/{id}")
-	public Result<Book> detleteBook(@PathVariable String id) {
-		logger.info("即将删除书籍，id="+id);
+	@DeleteMapping("/{bookId}")
+	public Result<Book> detleteBook(@PathVariable String bookId) {
+		logger.info("即将删除书籍，bookId="+bookId);
 		Result<Book> result = new Result<>();
-		boolean del = bookService.deleteBook(id);
+		boolean del = bookService.deleteBook(bookId);
 		if (del) {
 			result = result.ok();
 		} else {
@@ -144,7 +140,7 @@ public class BookController {
 	 * @return
 	 */
 	@PostMapping("/{bookId}/comment")
-	public Book addComment(@RequestHeader("token") String token, @PathVariable String bookId,@RequestBody Comment comment) {
+	public Book addComment(@RequestHeader("token") String token, @PathVariable String bookId, @RequestBody Comment comment) {
 		Book result = null;
 		String us = userService.currentUser(token);
 		String username = us.substring(0,us.length()-13); //token里存的username多了后13位，减去
@@ -156,18 +152,5 @@ public class BookController {
 		result = bookService.addComment(bookId, comment);
 		return result;
 	}
-	
-	
-//	@PostMapping("/{bookId}/comment")
-//	public Book addComment(@RequestHeader("token") String token, @PathVariable String bookId,@RequestBody Comment comment) {
-//		Book result = null;
-//		String username = userService.currentUser(token);
-//		String u = username.substring(0,username.length()-13);
-//		comment.setAuthor(u);
-//		logger.debug(username + "即将评论书籍" + bookId+ "评论对象：" + comment);
-//		//保存评论
-//		result = bookService.addComment(bookId, comment);
-//		return result;
-//	}
 	
 }

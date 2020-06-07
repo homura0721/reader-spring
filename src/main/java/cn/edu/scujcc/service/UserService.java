@@ -1,10 +1,7 @@
 package cn.edu.scujcc.service;
 
-
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +10,9 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 
 import cn.edu.scujcc.UserExistException;
-import cn.edu.scujcc.api.BookController;
 import cn.edu.scujcc.dao.UserRepository;
-import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.User;
 
@@ -30,9 +24,6 @@ public class UserService {
 	private UserRepository userRepo;
 	@Autowired
 	private CacheManager cacheManager;
-	
-	
-	
 	
 	/**
 	 * 用户注册
@@ -52,6 +43,7 @@ public class UserService {
 		}
 		return result;
 	}
+	
 	/**
 	 * 用户登录
 	 * @param u
@@ -89,16 +81,13 @@ public class UserService {
 		return cache.get(token, String.class);
 	}
 
-	
-
-	
 	/**
 	 * 通过username查询
 	 * @param username
 	 * @return
 	 */
 	public User getUser(String username) {
-		User result = userRepo.findByUsername(username);
+		User result = userRepo.findFirstByUsername(username);
 		return result;
 	}
 
@@ -112,12 +101,10 @@ public class UserService {
 		if(saved != null) {
 			saved.addFavorite(favorite);
 			return userRepo.save(saved);
-		
 		}
 		return saved;
 	}
 
-	
 	/**
 	 * 根据username和bookId，删除收藏夹
 	 * @param username
@@ -133,8 +120,11 @@ public class UserService {
         	Favorite fa = iterator.next();
             if(fa.getBookId().equals(bookId)){
                 iterator.remove();
+            }else {
+            	return null;
             }
         }
 		return u;
 	}
+	
 }

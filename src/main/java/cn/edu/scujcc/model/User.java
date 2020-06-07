@@ -14,7 +14,7 @@ public class User implements Serializable{
 	public static final String CACHE_NAME = "users";
 	
 	@Id
-	private String id;
+	private String userId;
 	private String username;
 	private String password;
 	private String nickname;
@@ -23,7 +23,7 @@ public class User implements Serializable{
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	
-	private List<Favorite> favorite;
+	private List<Favorite> favorite; //收藏夹
 	
 	public List<Favorite> getFavorite() {
 		return favorite;
@@ -41,11 +41,11 @@ public class User implements Serializable{
 	
 	
 
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getUsername() {
 		return username;
@@ -95,7 +95,7 @@ public class User implements Serializable{
 		int result = 1;
 		result = prime * result + ((birthday == null) ? 0 : birthday.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
@@ -121,10 +121,10 @@ public class User implements Serializable{
 				return false;
 		} else if (!gender.equals(other.gender))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (userId == null) {
+			if (other.userId != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!userId.equals(other.userId))
 			return false;
 		if (nickname == null) {
 			if (other.nickname != null)
@@ -150,7 +150,7 @@ public class User implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", nickname=" + nickname
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", nickname=" + nickname
 				+ ", phone=" + phone + ", gender=" + gender + ", birthday=" + birthday + "]";
 	}
 	

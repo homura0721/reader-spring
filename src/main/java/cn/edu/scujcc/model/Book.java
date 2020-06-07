@@ -13,7 +13,7 @@ public class Book implements Serializable{
 	private static final long serialVersionUID = 4359709211352400087L;
 	
 	@Id
-	private String id;
+	private String bookId;
 	private String title;
 	private String author;
 	private String body; //书的正文， txt、epub 格式
@@ -37,11 +37,11 @@ public class Book implements Serializable{
 		this.comments.add(comment);
 	}
 	
-	public String getId() {
-		return id;
+	public String getBookId() {
+		return bookId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setBookId(String bookId) {
+		this.bookId = bookId;
 	}
 	public String getTitle() {
 		return title;
@@ -154,7 +154,7 @@ public class Book implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", body=" + body + ", blurb=" + blurb
+		return "Book [bookId=" + bookId + ", title=" + title + ", author=" + author + ", body=" + body + ", blurb=" + blurb
 				+ ", tag1=" + tag1 + ", tag2=" + tag2 + ", tag3=" + tag3 + ", updateTime="
 				+ updateTime + ", cover=" + cover + "]";
 	}

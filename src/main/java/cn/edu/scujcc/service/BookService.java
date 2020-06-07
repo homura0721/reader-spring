@@ -64,7 +64,7 @@ public class BookService {
 	 * @return
 	 */
 	public Book updateBook(Book b) {
-		Book saved = getBook(b.getId());
+		Book saved = getBook(b.getBookId());
 		if (saved != null) {
 			if(b.getTitle() !=null) {
 				saved.setTitle(b.getTitle());

@@ -1,13 +1,10 @@
 package cn.edu.scujcc.api;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +19,6 @@ import cn.edu.scujcc.dao.UserRepository;
 import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.Result;
 import cn.edu.scujcc.model.User;
-import cn.edu.scujcc.service.BookService;
 import cn.edu.scujcc.service.UserService;
 
 @RestController
@@ -33,12 +29,6 @@ public class UserController {
 	private UserRepository userRepo;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private BookService bookService;
-	@Autowired
-	private CacheManager cacheManager;
-	
-	
 	
 	/**
 	 * 用户注册
@@ -61,9 +51,15 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 用户登录
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@GetMapping("/login/{username}/{password}")
 	public Result<String> login(@PathVariable("username") String username, @PathVariable("password") String password) {
-		Result<String> result = new Result();
+		Result<String> result = new Result<String>();
 		User saved = userService.login(username, password);
 		if (saved != null) {
 			//登录成功
@@ -85,13 +81,12 @@ public class UserController {
 	 * @param username
 	 * @return                                             
 	 */
-	@GetMapping("/f/my/get")
+	@GetMapping("/my/f/get")
 	public List<Favorite> getFavorite(@RequestHeader("token") String token) {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u = userService.getUser(username);
 		List<Favorite> f = u.getFavorite();
-		System.out.println(f);
 		return f;
 	}
 
@@ -101,7 +96,7 @@ public class UserController {
 	 * @param favorite
 	 * @return
 	 */
-	@PostMapping("/f/my/add/{bookId}")
+	@PostMapping("/my/f/add/{bookId}")
 	public User addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
 		User result = null;
 		String us = userService.currentUser(token);
@@ -112,13 +107,13 @@ public class UserController {
 	}
 	
 	/**
-	 * 根据token里的username、url里的bookId，删除收藏栏
+	 * 根据token里的username、url里的bookId，删除收藏夹
 	 * @param token
 	 * @param favorite
 	 * @param bookId
 	 * @return
 	 */
-	@DeleteMapping("/f/my/del/{bookId}")
+	@DeleteMapping("/my/f/del/{bookId}")
 	public User deleteFavroite(@RequestHeader("token") String token, @PathVariable String bookId) {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
@@ -127,10 +122,4 @@ public class UserController {
 		return u;
 	}
 
-	
-	
-	
-	
-	
-	
 }
