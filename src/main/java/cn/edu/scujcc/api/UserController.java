@@ -1,5 +1,6 @@
 package cn.edu.scujcc.api;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -34,6 +35,8 @@ public class UserController {
 	private UserRepository userRepo;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private BookService bookService;
 	@Autowired
 	private CacheManager cacheManager;
 	
@@ -84,12 +87,13 @@ public class UserController {
 	 * @param username
 	 * @return                                             
 	 */
-	@GetMapping("/favroite/my/get")
+	@GetMapping("/f/my/get")
 	public List<Favorite> getFavorite(@RequestHeader("token") String token) {
-		String username = userService.currentUser(token);
-		String realUsername = username.substring(0, username.length()-13); //token里存的username多了后13位，减去
-		User u = userService.getUser(realUsername);
+		String us = userService.currentUser(token);
+		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
+		User u = userService.getUser(username);
 		List<Favorite> f = u.getFavorite();
+		System.out.println(f);
 		return f;
 	}
 
@@ -99,13 +103,16 @@ public class UserController {
 	 * @param favorite
 	 * @return
 	 */
-	@PostMapping("/favorite/my/add")
-	public User addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite) {
+	@PostMapping("/f/my/add/{bookId}")
+	public User addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
 		User result = null;
-		String username = userService.currentUser(token);
-		String realUsername = username.substring(0,username.length()-13); //token里存的username多了后13位，减去
-		result = userService.addFavorite(realUsername, favorite);
+		String us = userService.currentUser(token);
+		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
+		favorite.setBookId(bookId);
+		result = userService.addFavorite(username, favorite);
 		return result;
 	}
 	
+
+
 }

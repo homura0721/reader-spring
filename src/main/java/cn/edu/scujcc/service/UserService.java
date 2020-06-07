@@ -1,6 +1,7 @@
 package cn.edu.scujcc.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,8 +95,8 @@ public class UserService {
 	 * @param username
 	 * @return
 	 */
-	public User getUser(String realUsername) {
-		User result = userRepo.findByUsername(realUsername);
+	public User getUser(String username) {
+		User result = userRepo.findByUsername(username);
 		return result;
 	}
 
@@ -103,14 +104,16 @@ public class UserService {
 	 * 添加收藏夹
 	 * @param realUsername
 	 * @param favorite
-	 * @return
 	 */
-	public User addFavorite(String realUsername, Favorite favorite) {
-		User saved = getUser(realUsername);
+	public User addFavorite(String username, Favorite favorite) {
+		User saved = getUser(username);
 		if(saved != null) {
 			saved.addFavorite(favorite);
 			return userRepo.save(saved);
+		
 		}
-		return null;
+		return saved;
 	}
+	
 }
+

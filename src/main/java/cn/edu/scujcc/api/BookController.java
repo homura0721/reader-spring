@@ -146,9 +146,9 @@ public class BookController {
 	@PostMapping("/{bookId}/comment")
 	public Book addComment(@RequestHeader("token") String token, @PathVariable String bookId,@RequestBody Comment comment) {
 		Book result = null;
-		String username = userService.currentUser(token);
-		String realUsername = username.substring(0,username.length()-13); //token里存的username多了后13位，减去
-		User u = userService.getUser(realUsername);
+		String us = userService.currentUser(token);
+		String username = us.substring(0,us.length()-13); //token里存的username多了后13位，减去
+		User u = userService.getUser(username);
 		String nickname = u.getNickname(); 
 		comment.setAuthor(nickname); //评论用nickname保存
 		logger.debug(username + "即将评论书籍" + bookId+ "评论对象：" + comment);
