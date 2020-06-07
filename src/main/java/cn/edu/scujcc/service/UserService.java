@@ -2,6 +2,7 @@ package cn.edu.scujcc.service;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
 import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.api.BookController;
@@ -114,6 +116,25 @@ public class UserService {
 		}
 		return saved;
 	}
-	
-}
 
+	
+	/**
+	 * 根据username和bookId，删除收藏夹
+	 * @param username
+	 * @param bookId
+	 * @return
+	 */
+	public User deleteFavorite(String username, String bookId) {
+		User u = getUser(username);
+		List<Favorite> f = u.getFavorite();
+		//迭代器删除bookId
+		Iterator<Favorite> iterator = f.iterator();
+        while(iterator.hasNext()){
+        	Favorite fa = iterator.next();
+            if(fa.getBookId().equals(bookId)){
+                iterator.remove();
+            }
+        }
+		return u;
+	}
+}

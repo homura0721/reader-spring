@@ -1,5 +1,6 @@
 package cn.edu.scujcc.api;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,13 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.dao.UserRepository;
-import cn.edu.scujcc.model.Book;
-import cn.edu.scujcc.model.Comment;
 import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.Result;
 import cn.edu.scujcc.model.User;
@@ -113,6 +111,26 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 根据token里的username、url里的bookId，删除收藏栏
+	 * @param token
+	 * @param favorite
+	 * @param bookId
+	 * @return
+	 */
+	@DeleteMapping("/f/my/del/{bookId}")
+	public User deleteFavroite(@RequestHeader("token") String token, @PathVariable String bookId) {
+		String us = userService.currentUser(token);
+		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
+		User u  = userService.deleteFavorite(username, bookId);
+		userRepo.save(u);
+		return u;
+	}
 
-
+	
+	
+	
+	
+	
+	
 }
