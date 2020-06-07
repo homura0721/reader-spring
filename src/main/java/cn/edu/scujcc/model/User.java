@@ -1,7 +1,9 @@
 package cn.edu.scujcc.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 
@@ -15,11 +17,30 @@ public class User implements Serializable{
 	private String id;
 	private String username;
 	private String password;
+	private String nickname;
 	private String phone;
 	private String gender;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	
+	private List<Favorite> favorite;
+	
+	public List<Favorite> getFavorite() {
+		return favorite;
+	}
+	public void setFavorite(List<Favorite> favorite) {
+		this.favorite = favorite;
+	}
+	
+	public void addFavorite(Favorite favorite) {
+		if(this.favorite == null) {
+			this.favorite = new ArrayList<>();
+		}
+		this.favorite.add(favorite);
+	}
+	
+	
+
 	public String getId() {
 		return id;
 	}
@@ -37,6 +58,12 @@ public class User implements Serializable{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	public String getPhone() {
 		return phone;
@@ -69,6 +96,7 @@ public class User implements Serializable{
 		result = prime * result + ((birthday == null) ? 0 : birthday.hashCode());
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -98,6 +126,11 @@ public class User implements Serializable{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (nickname == null) {
+			if (other.nickname != null)
+				return false;
+		} else if (!nickname.equals(other.nickname))
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -117,8 +150,8 @@ public class User implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", phone=" + phone + ", gender="
-				+ gender + ", birthday=" + birthday + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", nickname=" + nickname
+				+ ", phone=" + phone + ", gender=" + gender + ", birthday=" + birthday + "]";
 	}
 	
 }

@@ -1,5 +1,7 @@
 package cn.edu.scujcc.api;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.edu.scujcc.UserExistException;
+import cn.edu.scujcc.dao.UserRepository;
 import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Comment;
+import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.Result;
 import cn.edu.scujcc.model.User;
 import cn.edu.scujcc.service.BookService;
@@ -26,7 +30,8 @@ import cn.edu.scujcc.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+	@Autowired
+	private UserRepository userRepo;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -74,4 +79,18 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 查询收藏夹
+	 * @param username
+	 * @return                                             
+	 */
+	@GetMapping("/favroite/my/get")
+	public List<Favorite> getFavorite(@RequestHeader("token") String token) {
+		String username = userService.currentUser(token);
+		String realUsername = username.substring(0, username.length()-13); //token里存的username多了后13位，减去
+		User u = userService.getUser(realUsername);
+		List<Favorite> f = u.getFavorite();
+		return f;
+	}
+
 }

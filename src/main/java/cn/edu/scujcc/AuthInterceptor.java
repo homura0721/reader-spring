@@ -40,7 +40,6 @@ public class AuthInterceptor implements HandlerInterceptor{
 			if(null != username) {
 				logged = true;
 				//把用户名放入header, 以便后续程序使用
-				
 			}
 		}
 		logger.debug("当前请求是否登录？" + (logged ? "通过" : "不通过"));

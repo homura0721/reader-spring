@@ -16,6 +16,7 @@ import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.api.BookController;
 import cn.edu.scujcc.dao.UserRepository;
 import cn.edu.scujcc.model.Book;
+import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.User;
 
 @Service
@@ -84,4 +85,18 @@ public class UserService {
 		Cache cache = cacheManager.getCache(User.CACHE_NAME);
 		return cache.get(token, String.class);
 	}
+
+	
+
+	
+	/**
+	 * 通过username查询
+	 * @param username
+	 * @return
+	 */
+	public User getUser(String realUsername) {
+		User result = userRepo.findByUsername(realUsername);
+		return result;
+	}
+
 }

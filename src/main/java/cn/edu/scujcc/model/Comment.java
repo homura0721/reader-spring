@@ -9,7 +9,7 @@ public class Comment implements Serializable{
 	private static final long serialVersionUID = 9025921434272724054L;
 	
 	private String content;//评论内容
-	private String commentAuthor;//评论作者
+	private String author;//评论作者
 	private int star;//点赞数
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime dt = LocalDateTime.now();//评论时间
@@ -20,11 +20,11 @@ public class Comment implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getCommentAuthor() {
-		return commentAuthor;
+	public String getAuthor() {
+		return author;
 	}
-	public void setCommentAuthor(String commentAuthor) {
-		this.commentAuthor = commentAuthor;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 	public int getStar() {
 		return star;
@@ -42,7 +42,7 @@ public class Comment implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((commentAuthor == null) ? 0 : commentAuthor.hashCode());
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
 		result = prime * result + ((dt == null) ? 0 : dt.hashCode());
 		result = prime * result + star;
@@ -57,10 +57,10 @@ public class Comment implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Comment other = (Comment) obj;
-		if (commentAuthor == null) {
-			if (other.commentAuthor != null)
+		if (author == null) {
+			if (other.author != null)
 				return false;
-		} else if (!commentAuthor.equals(other.commentAuthor))
+		} else if (!author.equals(other.author))
 			return false;
 		if (content == null) {
 			if (other.content != null)
@@ -78,7 +78,7 @@ public class Comment implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Comment [content=" + content + ", commentAuthor=" + commentAuthor + ", star=" + star + ", dt=" + dt + "]";
+		return "Comment [content=" + content + ", author=" + author + ", star=" + star + ", dt=" + dt + "]";
 	}
 	
 	

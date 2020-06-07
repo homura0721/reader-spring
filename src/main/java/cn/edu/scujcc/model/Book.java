@@ -159,9 +159,4 @@ public class Book implements Serializable{
 				+ updateTime + ", cover=" + cover + "]";
 	}
 
-	
-	
-	
-	
-
 }

@@ -1,6 +1,8 @@
 package cn.edu.scujcc.dao;
 
 
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +17,9 @@ public interface UserRepository extends MongoRepository<User, String>{
 	
 	public User findOneByUsernameAndPassword(String username, String password);
 
-	
-	
+
+	public User findByUsername(String username);
+
 
 
 }
