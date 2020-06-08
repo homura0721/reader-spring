@@ -75,7 +75,7 @@ public class UserController {
 	 * @param username
 	 * @return                                             
 	 */
-	@GetMapping("/f/my/get")
+	@GetMapping("/favorite/my/get")
 	public List<Book> getFavorite(@RequestHeader("token") String token) {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
@@ -90,14 +90,15 @@ public class UserController {
 	 * @param favorite
 	 * @return
 	 */
-	@PostMapping("/f/my/add/{bookId}")
-	public User addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
+	@PostMapping("/favorite/my/add/{bookId}")
+	public List<Book> addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
 		User result = null;
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		favorite.setBookId(bookId);
 		result = userService.addFavorite(username, favorite);
-		return result;
+		List<Book> favoriteList = userService.getFavorite(result);
+		return favoriteList;								//返回收藏列表
 	}
 	
 	/**
@@ -107,7 +108,7 @@ public class UserController {
 	 * @param bookId
 	 * @return
 	 */
-	@DeleteMapping("/f/my/del/{bookId}")
+	@DeleteMapping("/favorite/my/del/{bookId}")
 	public User deleteFavroite(@RequestHeader("token") String token, @PathVariable String bookId) {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
