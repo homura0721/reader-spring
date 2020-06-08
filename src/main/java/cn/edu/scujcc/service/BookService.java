@@ -103,9 +103,9 @@ public class BookService {
 	public List<Book> search(String s){
 		List<Book> t = bookRepo.findByTitleLike(s);    //用s在 title 里查到的
 		t.addAll(bookRepo.findByAuthorLike(s));        //用s在 author 里查到的	 
-		t.addAll(bookRepo.findByTag1(s));          //用s在 tag1 里查到的	
-		t.addAll(bookRepo.findByTag2(s));          //用s在 tag2 里查到的 
-		t.addAll(bookRepo.findByTag3(s));          //用s在 tag3 里查到的
+		t.addAll(bookRepo.findByTag1Like(s));          //用s在 tag1 里查到的	
+		t.addAll(bookRepo.findByTag2Like(s));          //用s在 tag2 里查到的 
+		t.addAll(bookRepo.findByTag3Like(s));          //用s在 tag3 里查到的
 		return t;
 	}
 	

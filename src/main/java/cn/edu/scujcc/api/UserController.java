@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.dao.UserRepository;
+import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.Result;
 import cn.edu.scujcc.model.User;
@@ -75,13 +76,12 @@ public class UserController {
 	 * @return                                             
 	 */
 	@GetMapping("/f/my/get")
-	public List<Favorite> getFavorite(@RequestHeader("token") String token) {
+	public List<Book> getFavorite(@RequestHeader("token") String token) {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u = userService.getUser(username);
-		List<Favorite> f = u.getFavorite();
-		System.out.println(f);
-		return f;
+		List<Book> favoriteList = userService.getFavorite(u);
+		return favoriteList;
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class UserController {
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u  = userService.deleteFavorite(username, bookId);
 		userRepo.save(u);
-		return u;
+		return null;
 	}
 
 }

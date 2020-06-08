@@ -16,7 +16,7 @@ public class Book implements Serializable{
 	private String bookId;
 	private String title;
 	private String author;
-	private String body; //书的正文， txt、epub 格式
+	private String body; //书的正文， txt 
 	private String blurb; //书的简介 
 	private String tag1; // 书的标签1
 	private String tag2; // 书的标签2

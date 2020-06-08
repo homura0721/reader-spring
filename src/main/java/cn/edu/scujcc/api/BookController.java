@@ -23,7 +23,6 @@ import cn.edu.scujcc.model.User;
 import cn.edu.scujcc.service.BookService;
 import cn.edu.scujcc.service.UserService;
 
-
 @RestController
 @RequestMapping("/book")
 public class BookController {

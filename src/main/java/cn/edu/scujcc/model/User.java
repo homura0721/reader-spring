@@ -14,16 +14,16 @@ public class User implements Serializable{
 	public static final String CACHE_NAME = "users";
 	
 	@Id
-	private String userId;
-	private String username;
-	private String password;
-	private String nickname;
-	private String phone;
-	private String gender;
+	private String userId;     
+	private String username;	//用户名
+	private String password;	//密码
+	private String nickname;	//昵称
+	private String phone;		//手机
+	private String gender;		//性别
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date birthday;
+	private Date birthday;		//生日
 	
-	private List<Favorite> favorite;
+	private List<Favorite> favorite;	//收藏夹、书架
 	
 	public List<Favorite> getFavorite() {
 		return favorite;

@@ -1,6 +1,7 @@
 package cn.edu.scujcc.service;
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,16 +13,19 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import cn.edu.scujcc.UserExistException;
+import cn.edu.scujcc.dao.BookRepository;
 import cn.edu.scujcc.dao.UserRepository;
+import cn.edu.scujcc.model.Book;
 import cn.edu.scujcc.model.Favorite;
 import cn.edu.scujcc.model.User;
 
 @Service
 public class UserService {
-	
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(UserService.class);
 	@Autowired
 	private UserRepository userRepo;
+	@Autowired
+	private BookRepository bookRepo;
 	@Autowired
 	private CacheManager cacheManager;
 	
@@ -43,6 +47,7 @@ public class UserService {
 		}
 		return result;
 	}
+	
 	/**
 	 * 用户登录
 	 * @param u
@@ -91,6 +96,25 @@ public class UserService {
 	}
 
 	/**
+	 * 根据favorite里的bookId，查询book的详细信息
+	 * @param u
+	 * @return
+	 */
+	public List<Book> getFavorite(User u ) {
+		List<Book> b = null;
+		List<Book> favoriteList = new ArrayList<>();
+		List<Favorite> f = u.getFavorite();
+		Iterator<Favorite> iterator = f.iterator();
+		//查询book
+        while(iterator.hasNext()){
+        	Favorite fa = iterator.next();
+        	b = bookRepo.findByBookId(fa.getBookId());
+        	favoriteList.addAll(b);
+        }
+		return favoriteList;
+	}
+	
+	/**
 	 * 添加收藏夹
 	 * @param realUsername
 	 * @param favorite
@@ -100,7 +124,6 @@ public class UserService {
 		if(saved != null) {
 			saved.addFavorite(favorite);
 			return userRepo.save(saved);
-		
 		}
 		return saved;
 	}
@@ -124,4 +147,5 @@ public class UserService {
         }
 		return u;
 	}
+	
 }
