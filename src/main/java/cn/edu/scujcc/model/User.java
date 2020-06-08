@@ -23,7 +23,7 @@ public class User implements Serializable{
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	
-	private List<Favorite> favorite; //收藏夹
+	private List<Favorite> favorite;
 	
 	public List<Favorite> getFavorite() {
 		return favorite;

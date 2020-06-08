@@ -1,5 +1,6 @@
 package cn.edu.scujcc.service;
 
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,7 +11,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-
 import cn.edu.scujcc.UserExistException;
 import cn.edu.scujcc.dao.UserRepository;
 import cn.edu.scujcc.model.Favorite;
@@ -43,7 +43,6 @@ public class UserService {
 		}
 		return result;
 	}
-	
 	/**
 	 * 用户登录
 	 * @param u
@@ -87,7 +86,7 @@ public class UserService {
 	 * @return
 	 */
 	public User getUser(String username) {
-		User result = userRepo.findFirstByUsername(username);
+		User result = userRepo.findByUsername(username);
 		return result;
 	}
 
@@ -101,6 +100,7 @@ public class UserService {
 		if(saved != null) {
 			saved.addFavorite(favorite);
 			return userRepo.save(saved);
+		
 		}
 		return saved;
 	}
@@ -120,11 +120,8 @@ public class UserService {
         	Favorite fa = iterator.next();
             if(fa.getBookId().equals(bookId)){
                 iterator.remove();
-            }else {
-            	return null;
             }
         }
 		return u;
 	}
-	
 }

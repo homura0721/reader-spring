@@ -29,7 +29,6 @@ public class UserController {
 	private UserRepository userRepo;
 	@Autowired
 	private UserService userService;
-	
 	/**
 	 * 用户注册
 	 * @return
@@ -51,15 +50,9 @@ public class UserController {
 		return result;
 	}
 	
-	/**
-	 * 用户登录
-	 * @param username
-	 * @param password
-	 * @return
-	 */
 	@GetMapping("/login/{username}/{password}")
 	public Result<String> login(@PathVariable("username") String username, @PathVariable("password") String password) {
-		Result<String> result = new Result<String>();
+		Result<String> result = new Result();
 		User saved = userService.login(username, password);
 		if (saved != null) {
 			//登录成功
@@ -81,12 +74,13 @@ public class UserController {
 	 * @param username
 	 * @return                                             
 	 */
-	@GetMapping("/my/f/get")
+	@GetMapping("/f/my/get")
 	public List<Favorite> getFavorite(@RequestHeader("token") String token) {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u = userService.getUser(username);
 		List<Favorite> f = u.getFavorite();
+		System.out.println(f);
 		return f;
 	}
 
@@ -96,7 +90,7 @@ public class UserController {
 	 * @param favorite
 	 * @return
 	 */
-	@PostMapping("/my/f/add/{bookId}")
+	@PostMapping("/f/my/add/{bookId}")
 	public User addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
 		User result = null;
 		String us = userService.currentUser(token);
@@ -107,13 +101,13 @@ public class UserController {
 	}
 	
 	/**
-	 * 根据token里的username、url里的bookId，删除收藏夹
+	 * 根据token里的username、url里的bookId，删除收藏栏
 	 * @param token
 	 * @param favorite
 	 * @param bookId
 	 * @return
 	 */
-	@DeleteMapping("/my/f/del/{bookId}")
+	@DeleteMapping("/f/my/del/{bookId}")
 	public User deleteFavroite(@RequestHeader("token") String token, @PathVariable String bookId) {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去

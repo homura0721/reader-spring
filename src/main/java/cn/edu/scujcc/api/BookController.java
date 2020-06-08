@@ -50,11 +50,11 @@ public class BookController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/{bookId}")
-	public Result<Book> getBook(@PathVariable String bookId) {
-		logger.info("正在读取书籍：" + bookId);
+	@GetMapping("/{id}")
+	public Result<Book> getBook(@PathVariable String id) {
+		logger.info("正在读取书籍：" + id);
 		Result<Book> result = new Result<>();
-		Book b = bookService.getBook(bookId);
+		Book b = bookService.getBook(id);
 		if (b != null) {
 			result = result.ok();
 			result.setData(b);
@@ -71,11 +71,11 @@ public class BookController {
 	 * 删除书籍
 	 * @return
 	 */
-	@DeleteMapping("/{bookId}")
-	public Result<Book> detleteBook(@PathVariable String bookId) {
-		logger.info("即将删除书籍，bookId="+bookId);
+	@DeleteMapping("/{id}")
+	public Result<Book> detleteBook(@PathVariable String id) {
+		logger.info("即将删除书籍，id="+id);
 		Result<Book> result = new Result<>();
-		boolean del = bookService.deleteBook(bookId);
+		boolean del = bookService.deleteBook(id);
 		if (del) {
 			result = result.ok();
 		} else {
@@ -140,7 +140,7 @@ public class BookController {
 	 * @return
 	 */
 	@PostMapping("/{bookId}/comment")
-	public Book addComment(@RequestHeader("token") String token, @PathVariable String bookId, @RequestBody Comment comment) {
+	public Book addComment(@RequestHeader("token") String token, @PathVariable String bookId,@RequestBody Comment comment) {
 		Book result = null;
 		String us = userService.currentUser(token);
 		String username = us.substring(0,us.length()-13); //token里存的username多了后13位，减去
