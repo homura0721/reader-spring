@@ -140,7 +140,7 @@ public class BookService {
 	public List<Comment> hotComments(String bookId){
 		List<Comment> result = new ArrayList<>();
 		Book saved = getBook(bookId);
-		logger.debug("频道"+bookId+"的数据"+saved);
+		logger.debug("书籍id："+bookId+"的数据"+saved);
 		if(saved != null && saved.getComments() != null) {
 			//根据评论的star进行排序
 			saved.getComments().sort(new Comparator<Comment>() {
@@ -164,6 +164,4 @@ public class BookService {
 		return result;
 	}
 
-	
-	
 }

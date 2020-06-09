@@ -164,7 +164,7 @@ public class BookController {
 	@GetMapping("/{bookId}/hotcomments")
 	public Result<List<Comment>> hotComments(@PathVariable String bookId) {
 		Result<List<Comment>> result = new Result<List<Comment>>();
-		logger.debug("获取频道"+bookId+"的热门评论...");
+		logger.debug("获取书籍"+bookId+"的前10评论...");
 		result = result.ok();
 		result.setData(bookService.hotComments(bookId));
 		return result;
