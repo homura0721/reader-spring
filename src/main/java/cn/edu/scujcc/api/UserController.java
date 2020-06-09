@@ -76,12 +76,21 @@ public class UserController {
 	 * @return                                             
 	 */
 	@GetMapping("/favorite/my/get")
-	public List<Book> getFavorite(@RequestHeader("token") String token) {
+	public Result<List<Book>> getFavorite(@RequestHeader("token") String token) {
+		Result<List<Book>> result = new Result<>();
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u = userService.getUser(username);
 		List<Book> favoriteList = userService.getFavorite(u);
-		return favoriteList;
+		if (favoriteList != null) {
+			result = result.ok();
+			result.setData(favoriteList);    //返回书的详细信息
+		} else {
+			logger.error("找不到收藏");
+			result = result.error();
+			result.setMessage("找不到收藏");
+		}
+		return result;
 	}
 
 	/**
@@ -91,14 +100,23 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/favorite/my/add/{bookId}")
-	public List<Book> addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
-		User result = null;
+	public Result<List<Book>> addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
+		Result<List<Book>> result = new Result<>();
+		User u = null;
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		favorite.setBookId(bookId);
-		result = userService.addFavorite(username, favorite);
-		List<Book> favoriteList = userService.getFavorite(result);
-		return favoriteList;								//返回收藏列表
+		u = userService.addFavorite(username, favorite);
+		List<Book> favoriteList = userService.getFavorite(u);
+		if (favoriteList != null) {
+			result = result.ok();
+			result.setData(favoriteList);    //返回书的详细信息
+		} else {
+			logger.error("添加收藏失败");
+			result = result.error();
+			result.setMessage("添加收藏失败");
+		}
+		return result;
 	}
 	
 	/**
@@ -109,12 +127,19 @@ public class UserController {
 	 * @return
 	 */
 	@DeleteMapping("/favorite/my/del/{bookId}")
-	public User deleteFavroite(@RequestHeader("token") String token, @PathVariable String bookId) {
+	public Result<Book> deleteFavroite(@RequestHeader("token") String token, @PathVariable String bookId) {
+		Result<Book> result = new Result<>();
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u  = userService.deleteFavorite(username, bookId);
 		userRepo.save(u);
-		return null;
+		if (u != null) {
+			result = result.ok();
+		} else {
+			result.setStatus(Result.STATUS_ERROR);
+			result.setMessage("删除失败");
+		}
+		return result;
 	}
 
 }

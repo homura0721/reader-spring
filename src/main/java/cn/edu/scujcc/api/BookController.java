@@ -126,8 +126,12 @@ public class BookController {
 	 * @return
 	 */
 	@GetMapping("/s/")
-		public List<Book> search(@RequestParam String keyword){
-			return bookService.search(keyword);
+		public Result<List<Book>> search(@RequestParam String keyword){
+			Result<List<Book>> result = new Result<>();
+			List<Book> b = bookService.search(keyword);
+			result = result.ok();
+			result.setData(b);
+			return result;      
 		}
 	
 	
