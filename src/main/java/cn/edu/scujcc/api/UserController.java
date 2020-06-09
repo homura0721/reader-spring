@@ -1,5 +1,7 @@
 package cn.edu.scujcc.api;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -100,17 +102,18 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/favorite/my/add/{bookId}")
-	public Result<List<Book>> addFavorite(@RequestHeader("token") String token, @RequestBody Favorite favorite, @PathVariable String bookId) {
+	public Result<List<Book>> addFavorite(@RequestHeader("token") String token, @PathVariable String bookId, Favorite favorite) {
 		Result<List<Book>> result = new Result<>();
 		User u = null;
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		favorite.setBookId(bookId);
 		u = userService.addFavorite(username, favorite);
-		List<Book> favoriteList = userService.getFavorite(u);
-		if (favoriteList != null) {
+		List<Book> favoriteList = userService.getFavorite(u);	
+		if (u != null) {
 			result = result.ok();
-			result.setData(favoriteList);    //返回书的详细信息
+			result.setMessage("添加成功");
+			result.setData(favoriteList);
 		} else {
 			logger.error("添加收藏失败");
 			result = result.error();
