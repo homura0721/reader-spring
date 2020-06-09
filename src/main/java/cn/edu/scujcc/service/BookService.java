@@ -96,17 +96,26 @@ public class BookService {
 	
 	
 	/**
-	 * 用BookController的search()传来的s在title、author里查询
+	 * 查询
 	 * @param search
 	 * @return
 	 */
 	public List<Book> search(String s){
 		List<Book> t = bookRepo.findByTitleLike(s);    //用s在 title 里查到的
 		t.addAll(bookRepo.findByAuthorLike(s));        //用s在 author 里查到的	 
-		t.addAll(bookRepo.findByTag1Like(s));
-		t.addAll(bookRepo.findByTag2Like(s));
-		t.addAll(bookRepo.findByTag3Like(s));
 		return t;
+	}
+	
+	/**
+	 * 按照tag分类来查询book
+	 * @param tag
+	 * @return
+	 */
+	public List<Book> searchTag(String tag) {
+		List<Book> list = bookRepo.findByTag1Like(tag);
+		list.addAll(bookRepo.findByTag2Like(tag));
+		list.addAll(bookRepo.findByTag3Like(tag));
+		return null;
 	}
 	
 	   
@@ -124,5 +133,7 @@ public class BookService {
 		}
 		return null;
 	}
+
+	
 	
 }

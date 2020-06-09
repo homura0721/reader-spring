@@ -43,17 +43,16 @@ public class BookController {
 		return result;
 	}
 	
-	
 	/**
 	 * 查询指定id书籍
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/{id}")
-	public Result<Book> getBook(@PathVariable String id) {
-		logger.info("正在读取书籍：" + id);
+	@GetMapping("/{bookId}")
+	public Result<Book> getBook(@PathVariable String bookId) {
+		logger.info("正在读取书籍：" + bookId);
 		Result<Book> result = new Result<>();
-		Book b = bookService.getBook(id);
+		Book b = bookService.getBook(bookId);
 		if (b != null) {
 			result = result.ok();
 			result.setData(b);
@@ -65,16 +64,15 @@ public class BookController {
 		return result;
 	}
 	
-	
 	/**
 	 * 删除书籍
 	 * @return
 	 */
-	@DeleteMapping("/{id}")
-	public Result<Book> detleteBook(@PathVariable String id) {
-		logger.info("即将删除书籍，id="+id);
+	@DeleteMapping("/{bookId}")
+	public Result<Book> detleteBook(@PathVariable String bookId) {
+		logger.info("即将删除书籍，id="+bookId);
 		Result<Book> result = new Result<>();
-		boolean del = bookService.deleteBook(id);
+		boolean del = bookService.deleteBook(bookId);
 		if (del) {
 			result = result.ok();
 		} else {
@@ -83,7 +81,6 @@ public class BookController {
 		}
 		return result;
 	}
-	
 	
 	/**
 	 * 新增书籍
@@ -104,7 +101,6 @@ public class BookController {
 		return result;
 	}
 	
-	
 	/**
 	 * 修改书籍
 	 * @return
@@ -119,17 +115,25 @@ public class BookController {
 		return result;
 	}
 	
-	
 	/**
-	 * 查询title、author、tag1、tag2、tag3
+	 * 查询title、author
 	 * @param s
 	 * @return
 	 */
 	@GetMapping("/s/")
-		public List<Book> search(@RequestParam String keyword){
-			return bookService.search(keyword);     
-		}
+	public List<Book> search(@RequestParam String keyword){
+		return bookService.search(keyword);     
+	}
 	
+	/**
+	 * 按照Tag分类来查询
+	 * @param tag
+	 * @return
+	 */
+	@GetMapping("/s/tag/")
+	public List<Book> searchTag(@RequestParam String tag){
+		return bookService.searchTag(tag);
+	}
 	
 	/**
 	 * 添加评论
