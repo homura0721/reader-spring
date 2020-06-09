@@ -102,20 +102,20 @@ public class UserService {
 	 * @param u
 	 * @return
 	 */
-	@SuppressWarnings("null")
-	public List<Book> getFavorite(User u ) {
-		List<Book> favoriteList = new ArrayList<>();
+	public List<Book> getFavorite(User u) {
+		Book b = null;
+		List<Book> list = new ArrayList<>();
 		List<Favorite> f = u.getFavorite();
 		//查询book
 		Iterator<Favorite> iterator = f.iterator();
         while(iterator.hasNext()){
         	Favorite fa = iterator.next();
-        	Book b = bookService.getBook(fa.bookId);
-        	if(b != null) {
-        		favoriteList.add(b);  
+        	b = bookService.getBook(fa.getBookId());
+        	if (b != null) {
+        		list.add(b);  
         	}
         }
-        return favoriteList;
+        return list;
 	}
 	
 	/**

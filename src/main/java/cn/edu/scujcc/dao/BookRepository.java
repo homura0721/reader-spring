@@ -16,9 +16,10 @@ public interface BookRepository extends MongoRepository<Book, String>{
 	List<Book> findByTag2Like(String tag2);		//	
 	List<Book> findByTag3Like(String tag3);		//
 	
-	List<Book> findByBookId(String bookId);	
+//	List<Book> findByBookId(String bookId);	
 	
-	//List<Book> findByTitleAndAuthorLike(String title, String author);
+//	List<Book> findByTitleAndAuthorLike(String title, String author);
+//	
+//	List<Book> findByTitleAndAuthorLike(String title, String author);
 	
-	//List<Book> findByTitleAndAuthorLike(String title, String author);
 }

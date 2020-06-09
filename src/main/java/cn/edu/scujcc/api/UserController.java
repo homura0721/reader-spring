@@ -83,8 +83,15 @@ public class UserController {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u = userService.getUser(username);
+		// 当favorite=null， 执行下面 ，伪装
+		if (u.getFavorite() == null) {
+			result = result.ok();
+			result.setMessage("查询完成");
+			return result;
+		}
 		List<Book> favoriteList = userService.getFavorite(u);
 		result = result.ok();
+		result.setMessage("查询完成");
 		result.setData(favoriteList);    //返回书的详细信息
 		return result;
 	}
