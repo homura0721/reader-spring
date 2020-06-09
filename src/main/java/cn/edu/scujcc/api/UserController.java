@@ -135,13 +135,8 @@ public class UserController {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u  = userService.deleteFavorite(username, bookId);
-		userRepo.save(u);
-		if (u != null) {
-			result = result.ok();
-		} else {
-			result.setStatus(Result.STATUS_ERROR);
-			result.setMessage("删除失败");
-		}
+		userRepo.save(u);		
+		result = result.ok();
 		return result;
 	}
 

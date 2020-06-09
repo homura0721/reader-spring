@@ -101,7 +101,7 @@ public class UserService {
 	 * @return
 	 */
 	public List<Book> getFavorite(User u ) {
-		List<Book> b = null;
+		List<Book> b = new ArrayList<>();
 		List<Book> favoriteList = new ArrayList<>();
 		List<Favorite> f = u.getFavorite();
 		Iterator<Favorite> iterator = f.iterator();

@@ -1,5 +1,7 @@
 package cn.edu.scujcc.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,6 +134,34 @@ public class BookService {
 			return bookRepo.save(saved);
 		}
 		return null;
+	}
+
+	
+	public List<Comment> hotComments(String bookId){
+		List<Comment> result = new ArrayList<>();
+		Book saved = getBook(bookId);
+		logger.debug("频道"+bookId+"的数据"+saved);
+		if(saved != null && saved.getComments() != null) {
+			//根据评论的star进行排序
+			saved.getComments().sort(new Comparator<Comment>() {
+				@Override
+				public int compare(Comment o1, Comment o2) {
+					if (o1.getStar() == o2.getStar()) {
+						return 0;
+					}else if(o1.getStar() < o2.getStar()) {
+						return 1;
+					}else {
+						return -1;
+					}					
+				}								
+			});
+			if (saved.getComments().size()>10) {
+				result = saved.getComments().subList(0, 10);
+			}else {
+				result = saved.getComments();
+			}
+		}
+		return result;
 	}
 
 	

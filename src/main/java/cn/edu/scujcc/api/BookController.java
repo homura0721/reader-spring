@@ -130,7 +130,7 @@ public class BookController {
 	 * @param tag
 	 * @return
 	 */
-	@GetMapping("/s/tag/")
+	@GetMapping("/t/")
 	public List<Book> searchTag(@RequestParam String tag){
 		return bookService.searchTag(tag);
 	}
@@ -153,6 +153,20 @@ public class BookController {
 		logger.debug(username + "即将评论书籍" + bookId+ "评论对象：" + comment);
 		//保存评论
 		result = bookService.addComment(bookId, comment);
+		return result;
+	}
+	
+	/**
+	 *  获取热门评论（前10条）
+	 * @param 
+	 * @return 
+	 */
+	@GetMapping("/{bookId}/hotcomments")
+	public Result<List<Comment>> hotComments(@PathVariable String bookId) {
+		Result<List<Comment>> result = new Result<List<Comment>>();
+		logger.debug("获取频道"+bookId+"的热门评论...");
+		result = result.ok();
+		result.setData(bookService.hotComments(bookId));
 		return result;
 	}
 	
