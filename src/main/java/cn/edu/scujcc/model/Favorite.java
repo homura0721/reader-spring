@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Favorite implements Serializable{
 	private static final long serialVersionUID = 4359709211352400087L;
 	
-	private String bookId;
+	public String bookId;
 
 
 	public String getBookId() {

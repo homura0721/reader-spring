@@ -84,14 +84,8 @@ public class UserController {
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		User u = userService.getUser(username);
 		List<Book> favoriteList = userService.getFavorite(u);
-		if (favoriteList != null) {
-			result = result.ok();
-			result.setData(favoriteList);    //返回书的详细信息
-		} else {
-			logger.error("找不到收藏");
-			result = result.error();
-			result.setMessage("找不到收藏");
-		}
+		result = result.ok();
+		result.setData(favoriteList);    //返回书的详细信息
 		return result;
 	}
 
@@ -103,22 +97,13 @@ public class UserController {
 	 */
 	@PostMapping("/favorite/my/add/{bookId}")
 	public Result<List<Book>> addFavorite(@RequestHeader("token") String token, @PathVariable String bookId, Favorite favorite) {
-		Result<List<Book>> result = new Result<>();
-		User u = null;
+		Result<List<Book>> result = new Result<>();	
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		favorite.setBookId(bookId);
-		u = userService.addFavorite(username, favorite);
-		List<Book> favoriteList = userService.getFavorite(u);	
-		if (u != null) {
-			result = result.ok();
-			result.setMessage("添加成功");
-			result.setData(favoriteList);
-		} else {
-			logger.error("添加收藏失败");
-			result = result.error();
-			result.setMessage("添加收藏失败");
-		}
+		userService.addFavorite(username, favorite);
+		result = result.ok();
+		result.setMessage("添加成功");
 		return result;
 	}
 	
@@ -134,9 +119,9 @@ public class UserController {
 		Result<Book> result = new Result<>();
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
-		User u  = userService.deleteFavorite(username, bookId);
-		userRepo.save(u);		
+		userService.deleteFavorite(username, bookId);		
 		result = result.ok();
+		result.setMessage("删除成功");
 		return result;
 	}
 

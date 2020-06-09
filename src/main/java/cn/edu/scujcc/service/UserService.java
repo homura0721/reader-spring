@@ -27,6 +27,8 @@ public class UserService {
 	@Autowired
 	private BookRepository bookRepo;
 	@Autowired
+	private BookService bookService;
+	@Autowired
 	private CacheManager cacheManager;
 	
 	/**
@@ -100,18 +102,20 @@ public class UserService {
 	 * @param u
 	 * @return
 	 */
+	@SuppressWarnings("null")
 	public List<Book> getFavorite(User u ) {
-		List<Book> b = new ArrayList<>();
 		List<Book> favoriteList = new ArrayList<>();
 		List<Favorite> f = u.getFavorite();
-		Iterator<Favorite> iterator = f.iterator();
 		//查询book
+		Iterator<Favorite> iterator = f.iterator();
         while(iterator.hasNext()){
         	Favorite fa = iterator.next();
-        	b = bookRepo.findByBookId(fa.getBookId());
-        	favoriteList.addAll(b);
+        	Book b = bookService.getBook(fa.bookId);
+        	if(b != null) {
+        		favoriteList.add(b);  
+        	}
         }
-		return favoriteList;
+        return favoriteList;
 	}
 	
 	/**
@@ -145,6 +149,7 @@ public class UserService {
                 iterator.remove();
             }
         }
+        userRepo.save(u);
 		return u;
 	}
 	
