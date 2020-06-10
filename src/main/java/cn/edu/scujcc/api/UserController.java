@@ -46,9 +46,9 @@ public class UserController {
 			result.setMessage("注册成功");
 			result.setData(saved);
 		} catch (UserExistException e) {
-			logger.error("用户已存在，不能注册");			
+			logger.error("注册失败，用户名或昵称已存在");			
 			result.setStatus(Result.STATUS_ERROR);
-			result.setMessage("用户已存在，不能注册");
+			result.setMessage("注册失败，用户名或昵称已存在");
 		}
 		return result;
 	}

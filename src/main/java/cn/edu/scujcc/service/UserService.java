@@ -40,9 +40,17 @@ public class UserService {
 		User result= null;
 		//判断用户名是否已在数据库中存在
 		User saved = userRepo.findFirstByUsername(user.getUsername());
-		if (saved == null) {
+		//判断nickname是否重复
+		User nickname = userRepo.findFirstByNickname(user.getNickname());
+		if (saved == null && nickname == null) {
 			result = userRepo.save(user);
-		} else {
+		}
+		if (saved == null && nickname != null) {
+			//Nickname已存在
+			logger.error("Nickname"+user.getNickname()+"已存在。");
+			throw new UserExistException();
+		}
+		if (saved != null && nickname == null) {
 			//用户已存在
 			logger.error("用户"+user.getUsername()+"已存在。");
 			throw new UserExistException();
