@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -132,4 +133,28 @@ public class UserController {
 		return result;
 	}
 
+	/**
+	 * 修改个人信息。昵称重复不能修改
+	 * @param token
+	 * @param u
+	 * @return
+	 */
+	@PutMapping("/change/my/date")
+	public Result<User> updateUser(@RequestHeader("token") String token, @RequestBody User u){
+		Result<User> result = new Result<>();
+		String us = userService.currentUser(token);
+		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
+		try {
+			User updated = userService.updateUser(username, u);
+			result.setStatus(Result.STATUS_OK);
+			result.setMessage("保存成功");
+			result.setData(updated);
+		} catch (UserExistException e) {
+			logger.error("保存失败，昵称已存在");			
+			result.setStatus(Result.STATUS_ERROR);
+			result.setMessage("保存失败，昵称已存在");
+		}
+		return result;
+	}
+	
 }

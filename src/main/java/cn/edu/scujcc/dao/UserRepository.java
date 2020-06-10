@@ -21,6 +21,9 @@ public interface UserRepository extends MongoRepository<User, String>{
 	public User findFirstByNickname(String nickname);
 
 
+	public String findByNickname(String n);
+
+
 
 
 }

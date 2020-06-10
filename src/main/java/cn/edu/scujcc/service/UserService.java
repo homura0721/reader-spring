@@ -160,5 +160,36 @@ public class UserService {
         userRepo.save(u);
 		return u;
 	}
+
+	
+	/**
+	 * 修改个人信息
+	 * @param username
+	 * @param u
+	 * @return
+	 * @throws UserExistException
+	 */
+	public User updateUser(String username, User u) throws UserExistException {
+		//检查昵称是否已存在
+		User saved = getUser(username);
+		if (userRepo.findByNickname(u.getNickname()) != null) {
+			throw new UserExistException();
+		}else {
+			if(u.getNickname() !=null) {
+				saved.setNickname(u.getNickname());
+			}
+			if(u.getGender() !=null) {
+				saved.setGender(u.getGender());
+			}
+			if(u.getPhone() !=null) {
+				saved.setPhone(u.getPhone());
+			}
+			if(u.getBirthday() !=null) {
+				saved.setBirthday(u.getBirthday());
+			}
+
+		}
+		return userRepo.save(saved);
+	}
 	
 }
