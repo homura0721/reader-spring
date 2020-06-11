@@ -121,9 +121,8 @@ public class UserController {
 	}
 	
 	/**
-	 * 根据token里的username、url里的bookId，删除收藏栏
+	 * 根据token和bookId，删除收藏栏
 	 * @param token
-	 * @param favorite
 	 * @param bookId
 	 * @return
 	 */

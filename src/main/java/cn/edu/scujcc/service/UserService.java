@@ -47,12 +47,12 @@ public class UserService {
 		}
 		if (saved == null && nickname != null) {
 			//Nickname已存在
-			logger.error("Nickname"+user.getNickname()+"已存在。");
+			logger.error("昵称："+user.getNickname()+"已存在。");
 			result = null;
 		}
 		if (saved != null && nickname == null) {
 			//用户已存在
-			logger.error("用户"+user.getUsername()+"已存在。");
+			logger.error("用户："+user.getUsername()+"已存在。");
 			throw new UserExistException();
 		}
 		return result;
