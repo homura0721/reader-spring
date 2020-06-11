@@ -43,13 +43,18 @@ public class UserController {
 		logger.debug("用户注册："+u);
 		try {
 			User saved = userService.register(u);
-			result.setStatus(Result.STATUS_OK);
-			result.setMessage("注册成功");
-			result.setData(saved);
+			if (saved == null) {
+				result.setStatus(Result.STATUS_ERROR);
+				result.setMessage("注册失败，昵称已存在");
+			}else {
+				result.setStatus(Result.STATUS_OK);
+				result.setMessage("注册成功");
+				result.setData(saved);
+			}
 		} catch (UserExistException e) {
-			logger.error("注册失败，用户名或昵称已存在");			
+			logger.error("注册失败，用户名已存在");			
 			result.setStatus(Result.STATUS_ERROR);
-			result.setMessage("注册失败，用户名或昵称已存在");
+			result.setMessage("注册失败，用户名已存在");
 		}
 		return result;
 	}

@@ -48,7 +48,7 @@ public class UserService {
 		if (saved == null && nickname != null) {
 			//Nickname已存在
 			logger.error("Nickname"+user.getNickname()+"已存在。");
-			throw new UserExistException();
+			result = null;
 		}
 		if (saved != null && nickname == null) {
 			//用户已存在
