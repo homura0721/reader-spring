@@ -190,5 +190,22 @@ public class UserService {
 		}
 		return userRepo.save(saved);
 	}
+
+	
+	/**
+	 * 修改密码
+	 * @param username
+	 * @param u
+	 * @return
+	 */
+	public User updatePassword(String username, User u) {
+		User saved = getUser(username);
+		if (u != null) {
+			if (u.getPassword() != null) {
+				saved.setPassword(u.getPassword());
+			}
+		}
+		return userRepo.save(saved);
+	}
 	
 }

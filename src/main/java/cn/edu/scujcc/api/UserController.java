@@ -138,6 +138,17 @@ public class UserController {
 		return result;
 	}
 
+	@GetMapping("/get/my/date")
+	public Result<User> getMyDate(@RequestHeader("token") String token, @RequestBody User u){
+		Result<User> result = new Result<>();
+		String us = userService.currentUser(token);
+		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
+		User get =  userService.getUser(username);
+		result = result.ok();
+		result.setData(get);
+		return result;
+	}
+	
 	/**
 	 * 修改个人信息。昵称重复不能修改
 	 * @param token
@@ -162,4 +173,20 @@ public class UserController {
 		return result;
 	}
 	
+	/**
+	 * 修改密码
+	 * @param token
+	 * @param u
+	 * @return
+	 */
+	@PutMapping("/change/my/password")
+	public Result<User> updatePassword(@RequestHeader("token") String token, @RequestBody User u){
+		Result<User> result = new Result<>();
+		String us = userService.currentUser(token);
+		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
+		userService.updatePassword(username, u);
+		result = result.ok();
+		result.setMessage("密码修改成功");
+		return result;
+	}
 }
