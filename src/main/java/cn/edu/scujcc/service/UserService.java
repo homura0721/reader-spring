@@ -187,7 +187,6 @@ public class UserService {
 			if(u.getBirthday() !=null) {
 				saved.setBirthday(u.getBirthday());
 			}
-
 		}
 		return userRepo.save(saved);
 	}

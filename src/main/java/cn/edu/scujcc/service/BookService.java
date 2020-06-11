@@ -117,7 +117,7 @@ public class BookService {
 		List<Book> list = bookRepo.findByTag1Like(tag);
 		list.addAll(bookRepo.findByTag2Like(tag));
 		list.addAll(bookRepo.findByTag3Like(tag));
-		return null;
+		return list;
 	}
 	
 	   
