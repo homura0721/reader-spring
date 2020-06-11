@@ -138,7 +138,7 @@ public class UserController {
 		return result;
 	}
 
-	@GetMapping("/get/my/date")
+	@GetMapping("/get/my/data")
 	public Result<User> getMyDate(@RequestHeader("token") String token, @RequestBody User u){
 		Result<User> result = new Result<>();
 		String us = userService.currentUser(token);
@@ -155,7 +155,7 @@ public class UserController {
 	 * @param u
 	 * @return
 	 */
-	@PutMapping("/change/my/date")
+	@PutMapping("/change/my/data")
 	public Result<User> updateUser(@RequestHeader("token") String token, @RequestBody User u){
 		Result<User> result = new Result<>();
 		String us = userService.currentUser(token);
