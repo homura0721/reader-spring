@@ -114,6 +114,7 @@ public class UserController {
 		String us = userService.currentUser(token);
 		String username = us.substring(0, us.length()-13); //token里存的username多了后13位，减去
 		favorite.setBookId(bookId);
+		System.out.println("准备添加的："+favorite);
 		userService.addFavorite(username, favorite);
 		result = result.ok();
 		result.setMessage("添加成功");
