@@ -3,7 +3,7 @@
 
   *  学习项目 小说APP 悦阅 服务器
 
-* 服务器地址
+* Server Address
 
   | 服务器地址                |
   | ------------------------- |
@@ -33,4 +33,4 @@
 
 * Maintainers
 
-  @Remelife(https://github.com/Remelife/)
+  [@Remelife](https://github.com/Remelife)
