@@ -1,13 +1,14 @@
-# reader-spring
 * Background
 
   *  学习项目 小说APP 悦阅 服务器
 
-* Server Address
+* 服务器地址
 
-  | 服务器地址                |
-  | ------------------------- |
-  | http://47.115.82.64:8080/ |
+  * | 服务器地址                |
+    | ------------------------- |
+    | http://47.115.82.64:8080/ |
+
+  * 需要先登录才能访问
 
 * API
 
@@ -33,4 +34,10 @@
 
 * Maintainers
 
-  [@Remelife](https://github.com/Remelife)
+  [@Remelife](https://github.com/Remelife).
+
+* End
+
+  ![image](https://github.com/Remelife/README_img/blob/master/1.jpg)
+  
+
